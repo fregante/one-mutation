@@ -27,7 +27,9 @@ test.beforeEach(t => {
 });
 
 test('should observe one mutation', async t => {
-	const observer = oneMutation(t.context.body);
+	const observer = oneMutation(t.context.body, {
+		childList: true
+	});
 	t.context.body.append('Text');
 	const records = await observer;
 	t.is(records.length, 1);
@@ -41,7 +43,10 @@ test('should observe one mutation', async t => {
 });
 
 test('should filter unwanted mutations', async t => {
-	const observer = oneMutation(t.context.body, onlyTextNotesMutations);
+	const observer = oneMutation(t.context.body, {
+		filter: onlyTextNotesMutations,
+		childList: true
+	});
 	t.context.body.append(document.createElement('div'));
 	await delay(10);
 	t.context.body.append('Text');
@@ -57,7 +62,7 @@ test('should filter unwanted mutations', async t => {
 });
 
 test('should only listen to the specified mutations', async t => {
-	const observer = oneMutation(t.context.body, undefined, {
+	const observer = oneMutation(t.context.body, {
 		attributes: true
 	});
 	t.context.body.append(document.createElement('div'));
