@@ -1,10 +1,20 @@
 {
 	"name": "one-mutation",
 	"version": "2.0.2",
-	"description": "Lightweight event delegation",
+	"description": "Observe one mutation via `MutationObserver`, then resolve a Promise.",
 	"keywords": [
-		"oneMutation",
-		"delegation",
+		"mutationobserver",
+		"mutations",
+		"dom",
+		"changes",
+		"promise",
+		"onchange",
+		"added",
+		"removed",
+		"attributes",
+		"elements",
+		"notes",
+		"once",
 		"event"
 	],
 	"repository": "fregante/one-mutation",
