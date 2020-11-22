@@ -55,3 +55,21 @@ test('should filter unwanted mutations', async t => {
 		}
 	});
 });
+
+test('should only listen to the specified mutations', async t => {
+	const observer = oneMutation(t.context.body, undefined, {
+		attributes: true
+	});
+	t.context.body.append(document.createElement('div'));
+	t.context.body.dataset.sawadee = 'ครับ';
+
+	const emptyNodeListFixture = document.createElement('div').querySelectorAll('a');
+	const records = await observer;
+	t.is(records.length, 1);
+	t.like(records[0], {
+		target: t.context.body,
+		type: 'attributes',
+		attributeName: 'data-sawadee',
+		addedNodes: emptyNodeListFixture
+	});
+});
