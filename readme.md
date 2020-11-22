@@ -23,7 +23,7 @@ oneMutation(document.body, {childList: true}).then(mutations => {
 	// A text node was added!
 });
 
-document.body.append('Text')
+document.body.append('Text');
 ```
 
 ```js
@@ -66,7 +66,6 @@ new MutationObserver(callback).observe(NODE, options)
 
 #### options
 
-
 Type: `object` <br>
 Example: `{childList: true}`, `{subtree: true, filter: filterFunction}`
 
@@ -86,6 +85,7 @@ Refer to the MDN [MutationObserver documentation](https://developer.mozilla.org/
 
 Type: boolean-returning `function` <br>
 Example:
+
 ```js
 function filterFunction(mutations) {
 	for (const mutation of mutations) {

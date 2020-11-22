@@ -68,7 +68,9 @@ test('should only listen to the specified mutations', async t => {
 	t.context.body.append(document.createElement('div'));
 	t.context.body.dataset.sawadee = 'ครับ';
 
-	const emptyNodeListFixture = document.createElement('div').querySelectorAll('a');
+	const emptyNodeListFixture = document
+		.createElement('div')
+		.querySelectorAll('a');
 	const records = await observer;
 	t.is(records.length, 1);
 	t.like(records[0], {
