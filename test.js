@@ -1,5 +1,5 @@
+import {createRequire} from 'node:module';
 import test from 'ava';
-import {createRequire} from 'module';
 import oneMutation from './index.js';
 
 const require = createRequire(import.meta.url);
@@ -28,7 +28,7 @@ test.beforeEach(t => {
 
 test('should observe one mutation', async t => {
 	const observer = oneMutation(t.context.body, {
-		childList: true
+		childList: true,
 	});
 	t.context.body.append('Text');
 	const records = await observer;
@@ -37,15 +37,15 @@ test('should observe one mutation', async t => {
 		target: t.context.body,
 		type: 'childList',
 		addedNodes: {
-			0: new Text()
-		}
+			0: new Text(),
+		},
 	});
 });
 
 test('should filter unwanted mutations', async t => {
 	const observer = oneMutation(t.context.body, {
 		filter: onlyTextNotesMutations,
-		childList: true
+		childList: true,
 	});
 	t.context.body.append(document.createElement('div'));
 	await delay(10);
@@ -56,14 +56,14 @@ test('should filter unwanted mutations', async t => {
 		target: t.context.body,
 		type: 'childList',
 		addedNodes: {
-			0: new Text()
-		}
+			0: new Text(),
+		},
 	});
 });
 
 test('should only listen to the specified mutations', async t => {
 	const observer = oneMutation(t.context.body, {
-		attributes: true
+		attributes: true,
 	});
 	t.context.body.append(document.createElement('div'));
 	t.context.body.dataset.sawadee = 'ครับ';
@@ -77,6 +77,6 @@ test('should only listen to the specified mutations', async t => {
 		target: t.context.body,
 		type: 'attributes',
 		attributeName: 'data-sawadee',
-		addedNodes: emptyNodeListFixture
+		addedNodes: emptyNodeListFixture,
 	});
 });

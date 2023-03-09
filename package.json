@@ -18,10 +18,11 @@
 		"event"
 	],
 	"repository": "fregante/one-mutation",
+	"funding": "https://github.com/sponsors/fregante",
 	"license": "MIT",
 	"type": "module",
-	"main": "index.js",
-	"module": "index.js",
+	"exports": "./index.js",
+	"main": "./index.js",
 	"types": "./index.d.ts",
 	"files": [
 		"index.js",
@@ -46,12 +47,12 @@
 		}
 	},
 	"devDependencies": {
-		"@sindresorhus/tsconfig": "^0.8.0",
-		"ava": "^3.13.0",
-		"delay": "^4.4.0",
-		"jsdom": "^16.4.0",
+		"@sindresorhus/tsconfig": "^3.0.1",
+		"ava": "^5.2.0",
+		"delay": "^5.0.0",
+		"jsdom": "^21.1.0",
 		"npm-run-all": "^4.1.5",
-		"typescript": "^4.1.2",
-		"xo": "^0.35.0"
+		"typescript": "^4.9.5",
+		"xo": "^0.53.1"
 	}
 }
