@@ -1,10 +1,10 @@
-interface Options extends MutationObserverInit {
+type Options = {
 	filter?: (mutations: MutationRecord[]) => boolean;
-}
+} & MutationObserverInit;
 
 export default async function oneMutation(
 	element: Element,
-	options: Options = {}
+	options: Options = {},
 ): Promise<MutationRecord[]> {
 	return new Promise(resolve => {
 		const {filter} = options;

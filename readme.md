@@ -112,3 +112,7 @@ new MutationObserver(FILTER)
 - [select-dom](https://github.com/fregante/select-dom) - Lightweight `querySelector`/`All` wrapper that outputs an Array.
 - [doma](https://github.com/fregante/doma) - Parse an HTML string into `DocumentFragment` or one `Element`, in a few bytes.
 - [Refined GitHub](https://github.com/sindresorhus/refined-github) - Uses this module.
+
+## License
+
+MIT © [Federico Brigante](https://fregante.com)
