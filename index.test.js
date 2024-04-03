@@ -1,12 +1,18 @@
-import test from 'ava';
+import {setTimeout} from 'node:timers/promises';
+import {assert, test} from 'vitest';
 import {JSDOM} from 'jsdom';
-import delay from 'delay';
 import oneMutation from './index.js';
 
 const jsdom = new JSDOM('');
 global.MutationObserver = jsdom.window.MutationObserver;
 global.document = jsdom.window.document;
 global.Text = jsdom.window.Text;
+
+const t = {
+	is: assert.equal,
+	like: assert.containSubset,
+	deepEqual: assert.deepEqual,
+};
 
 function onlyTextNotesMutations(mutations) {
 	for (const {addedNodes} of mutations) {
@@ -18,20 +24,15 @@ function onlyTextNotesMutations(mutations) {
 	}
 }
 
-test.beforeEach(t => {
-	const {window} = new JSDOM('');
-	t.context.body = window.document.body;
-});
-
-test('should observe one mutation', async t => {
-	const observer = oneMutation(t.context.body, {
+test('should observe one mutation', async () => {
+	const observer = oneMutation(document.body, {
 		childList: true,
 	});
-	t.context.body.append('Text');
+	document.body.append('Text');
 	const records = await observer;
 	t.is(records.length, 1);
 	t.like(records[0], {
-		target: t.context.body,
+		target: document.body,
 		type: 'childList',
 		addedNodes: {
 			0: new Text(),
@@ -39,18 +40,18 @@ test('should observe one mutation', async t => {
 	});
 });
 
-test('should filter unwanted mutations', async t => {
-	const observer = oneMutation(t.context.body, {
+test('should filter unwanted mutations', async () => {
+	const observer = oneMutation(document.body, {
 		filter: onlyTextNotesMutations,
 		childList: true,
 	});
-	t.context.body.append(document.createElement('div'));
-	await delay(10);
-	t.context.body.append('Text');
+	document.body.append(document.createElement('div'));
+	await setTimeout(10);
+	document.body.append('Text');
 	const records = await observer;
 	t.is(records.length, 1);
 	t.like(records[0], {
-		target: t.context.body,
+		target: document.body,
 		type: 'childList',
 		addedNodes: {
 			0: new Text(),
@@ -58,12 +59,12 @@ test('should filter unwanted mutations', async t => {
 	});
 });
 
-test('should only listen to the specified mutations', async t => {
-	const observer = oneMutation(t.context.body, {
+test('should only listen to the specified mutations', async () => {
+	const observer = oneMutation(document.body, {
 		attributes: true,
 	});
-	t.context.body.append(document.createElement('div'));
-	t.context.body.dataset.sawadee = 'ครับ';
+	document.body.append(document.createElement('div'));
+	document.body.dataset.sawadee = 'ครับ';
 
 	const emptyNodeListFixture = document
 		.createElement('div')
@@ -71,7 +72,7 @@ test('should only listen to the specified mutations', async t => {
 	const records = await observer;
 	t.is(records.length, 1);
 	t.like(records[0], {
-		target: t.context.body,
+		target: document.body,
 		type: 'attributes',
 		attributeName: 'data-sawadee',
 		addedNodes: emptyNodeListFixture,
