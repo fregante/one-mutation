@@ -77,3 +77,20 @@ test('should only listen to the specified mutations', async t => {
 		addedNodes: emptyNodeListFixture,
 	});
 });
+
+test('should stop observing when the signal is aborted', async (t) => {
+	const observer = oneMutation(t.context.body, {
+		signal: AbortSignal.timeout(10),
+		attributes: true,
+	});
+	t.deepEqual(await observer, []);
+});
+
+
+test('should resolve immediately if the signal is already aborted', async (t) => {
+	const observer = oneMutation(t.context.body, {
+		signal: AbortSignal.abort(),
+		attributes: true,
+	});
+	t.deepEqual(await observer, []);
+});

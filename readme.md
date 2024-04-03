@@ -66,10 +66,10 @@ new MutationObserver(callback).observe(NODE, options)
 
 #### options
 
-Type: `object` <br>
+Type: `MutationObserverInit & {filter?: FilterFunction, signal?: AbortSignal}` <br>
 Example: `{childList: true}`, `{subtree: true, filter: filterFunction}`
 
-This matches [`MutationObserverInit`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverInit) and adds a `filter` method.
+This matches [`MutationObserverInit`](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserverInit) and adds a `filter` method and an `signal` to cancel the observation.
 
 The equivalent parameter of:
 
@@ -96,7 +96,7 @@ function filterFunction(mutations) {
 		}
 	}
 }
-```
+
 
 A function that will be called every time that `MutationObserver` detects a change, the equivalent parameter of:
 
@@ -105,6 +105,25 @@ new MutationObserver(FILTER)
 ```
 
 **But** it should only be used to return `true` or `false` so that the Promise can be resolved.
+
+##### signal
+
+Type: `AbortSignal` <br>
+Example:
+
+```js
+const timeout = AbortSignal.timeout(1000);
+oneMutation(document.body, {
+	signal: timeout,
+	attributes: true,
+}).then(mutations => {
+	if (mutations.length > 0) {
+		console.log('No changes were detected in 1 second');
+	} else {
+		console.log('A change was detected!');
+	}
+});
+```
 
 ## Related
 
