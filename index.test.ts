@@ -4,9 +4,9 @@ import {JSDOM} from 'jsdom';
 import oneMutation from './index.js';
 
 const jsdom = new JSDOM('');
-global.MutationObserver = jsdom.window.MutationObserver;
-global.document = jsdom.window.document;
-global.Text = jsdom.window.Text;
+globalThis.document = jsdom.window.document;
+globalThis.Text = jsdom.window.Text;
+globalThis.MutationObserver = jsdom.window.MutationObserver;
 
 const t = {
 	is: assert.equal,
@@ -14,7 +14,7 @@ const t = {
 	deepEqual: assert.deepEqual,
 };
 
-function onlyTextNotesMutations(mutations) {
+function onlyTextNotesMutations(mutations: MutationRecord[]) {
 	for (const {addedNodes} of mutations) {
 		for (const node of addedNodes) {
 			if (node.nodeType === node.TEXT_NODE) {
@@ -22,6 +22,8 @@ function onlyTextNotesMutations(mutations) {
 			}
 		}
 	}
+
+	return false;
 }
 
 test('should observe one mutation', async () => {
@@ -34,9 +36,9 @@ test('should observe one mutation', async () => {
 	t.like(records[0], {
 		target: document.body,
 		type: 'childList',
-		addedNodes: {
-			0: new Text(),
-		},
+		addedNodes: [
+			new Text(),
+		],
 	});
 });
 
@@ -53,9 +55,9 @@ test('should filter unwanted mutations', async () => {
 	t.like(records[0], {
 		target: document.body,
 		type: 'childList',
-		addedNodes: {
-			0: new Text(),
-		},
+		addedNodes: [
+			new Text(),
+		],
 	});
 });
 
