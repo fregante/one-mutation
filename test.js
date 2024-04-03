@@ -1,10 +1,7 @@
-import {createRequire} from 'node:module';
 import test from 'ava';
+import {JSDOM} from 'jsdom';
+import delay from 'delay';
 import oneMutation from './index.js';
-
-const require = createRequire(import.meta.url);
-const {JSDOM} = require('jsdom');
-const delay = require('delay');
 
 const jsdom = new JSDOM('');
 global.MutationObserver = jsdom.window.MutationObserver;
