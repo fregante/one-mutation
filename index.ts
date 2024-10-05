@@ -4,7 +4,7 @@ type Options = {
 } & MutationObserverInit;
 
 export default async function oneMutation(
-	element: Element,
+	node: Node,
 	{filter, signal, ...options}: Options = {},
 ): Promise<MutationRecord[]> {
 	if (signal?.aborted) {
@@ -18,7 +18,7 @@ export default async function oneMutation(
 				resolve(changes);
 			}
 		});
-		observer.observe(element, options);
+		observer.observe(node, options);
 
 		signal?.addEventListener('abort', () => {
 			observer.disconnect();
